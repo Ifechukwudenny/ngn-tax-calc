@@ -288,8 +288,11 @@ export async function sendTaxReport(data: TaxReportData) {
                       </p>
                       <div style="margin: 20px 0 0 0; padding: 15px; background-color: #f9f9f9; border-radius: 6px;" class="email-contact-box">
                         <p style="margin: 0 0 10px 0; color: #000211; font-size: 13px; font-weight: bold;">Contact Oduko</p>
-                        <p style="margin: 0; color: #666; font-size: 12px; word-break: break-word;">
+                        <p style="margin: 0 0 8px 0; color: #666; font-size: 12px; word-break: break-word;">
                           <a href="mailto:odukoregistrydev@gmail.com" style="color: #BAF0FF; text-decoration: none; word-break: break-all;">odukoregistrydev@gmail.com</a>
+                        </p>
+                        <p style="margin: 0; color: #666; font-size: 12px;">
+                          <a href="tel:+2349011141113" style="color: #BAF0FF; text-decoration: none;">(+234) 9011141113</a>
                         </p>
                       </div>
                       <p style="margin: 15px 0 0 0; color: #999; font-size: 12px;" class="email-footer-text">
@@ -411,6 +414,15 @@ export async function sendTaxReport(data: TaxReportData) {
                       <p style="margin: 0; color: #999; font-size: 12px;">
                         This is an automated notification from Oduko Tax Calculator.
                       </p>
+                      <div style="margin: 15px 0 0 0; padding: 12px; background-color: #f9f9f9; border-radius: 6px;">
+                        <p style="margin: 0 0 8px 0; color: #000211; font-size: 12px; font-weight: bold;">Contact Oduko</p>
+                        <p style="margin: 0 0 5px 0; color: #666; font-size: 11px;">
+                          <a href="mailto:odukoregistrydev@gmail.com" style="color: #BAF0FF; text-decoration: none; word-break: break-all;">odukoregistrydev@gmail.com</a>
+                        </p>
+                        <p style="margin: 0; color: #666; font-size: 11px;">
+                          <a href="tel:+2349011141113" style="color: #BAF0FF; text-decoration: none;">(+234) 9011141113</a>
+                        </p>
+                      </div>
                     </td>
                   </tr>
                 </table>
