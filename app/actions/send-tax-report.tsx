@@ -38,9 +38,6 @@ export async function sendTaxReport(data: TaxReportData) {
 
 		console.log("[v0] SMTP credentials found, creating transporter");
 
-		// Increment user count
-		userCount++;
-
 		const transporter = nodemailer.createTransport({
 			service: "gmail",
 			host: "smtp.gmail.com",
@@ -85,6 +82,20 @@ export async function sendTaxReport(data: TaxReportData) {
 		const displayTax = data.period === "monthly" ? safeTotalTax / 12 : safeTotalTax;
 		const displayNet = data.period === "monthly" ? safeNetIncome / 12 : safeNetIncome;
 
+		// Calculate monthly values
+		const monthlyGross = safeGrossIncome / 12;
+		const monthlyDeductions = safeTotalDeductions / 12;
+		const monthlyTaxable = safeTaxableIncome / 12;
+		const monthlyTax = safeTotalTax / 12;
+		const monthlyNet = safeNetIncome / 12;
+		const monthlyMortgage = safeMortgage / 12;
+		const monthlyPension = safePension / 12;
+		const monthlyRent = safeRent / 12;
+		const monthlyInsurance = safeInsurance / 12;
+
+		// Use GitHub raw URL for logo
+		const logoUrl = "https://raw.githubusercontent.com/heygrtnx/ngn-tax-calc/refs/heads/main/public/oduko-logo.png";
+
 		// Email to user
 		const userEmailHtml = `
       <!DOCTYPE html>
@@ -101,7 +112,8 @@ export async function sendTaxReport(data: TaxReportData) {
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                   <!-- Header -->
                   <tr>
-                    <td style="background: linear-gradient(135deg, #BAF0FF 0%, #FFD2A8 100%); padding: 40px 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                    <td style="background: linear-gradient(135deg, #BAF0FF 0%, #FFD2A8 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                      <img src="${logoUrl}" alt="Oduko Logo" style="max-width: 200px; height: auto; margin-bottom: 15px;" />
                       <h1 style="margin: 0; color: #000211; font-size: 28px; font-weight: bold;">Your Tax Report</h1>
                       <p style="margin: 10px 0 0 0; color: #000211; font-size: 14px;">Nigeria Personal Income Tax Calculator</p>
                     </td>
@@ -154,8 +166,42 @@ export async function sendTaxReport(data: TaxReportData) {
                     </td>
                   </tr>
                   
+                  <!-- Monthly Breakdown -->
+                  <tr>
+                    <td style="padding: 0 30px 30px 30px;">
+                      <h3 style="margin: 0 0 15px 0; color: #000211; font-size: 16px;">Monthly Breakdown</h3>
+                      <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #e5e5e5; border-radius: 6px;">
+                        <tr style="background-color: #f9f9f9;">
+                          <td colspan="2" style="padding: 12px 15px; border-bottom: 2px solid #BAF0FF;">
+                            <h4 style="margin: 0; color: #000211; font-size: 15px;">Monthly Tax Summary</h4>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Gross Income</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyGross)}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Deductions</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyDeductions)}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Taxable Income</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyTaxable)}</td>
+                        </tr>
+                        <tr style="background-color: #BAF0FF;">
+                          <td style="padding: 12px 15px; color: #000211; font-size: 14px; font-weight: bold;">Monthly Tax</td>
+                          <td style="padding: 12px 15px; text-align: right; color: #000211; font-size: 14px; font-weight: bold;">${formatCurrency(monthlyTax)}</td>
+                        </tr>
+                        <tr style="background-color: #FFD2A8;">
+                          <td style="padding: 12px 15px; color: #000211; font-size: 14px; font-weight: bold;">Monthly Net Income</td>
+                          <td style="padding: 12px 15px; text-align: right; color: #000211; font-size: 14px; font-weight: bold;">${formatCurrency(monthlyNet)}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  
                   <!-- Deduction Breakdown -->
-                  <tr></tr>
+                  <tr>
                     <td style="padding: 0 30px 30px 30px;">
                       <h3 style="margin: 0 0 15px 0; color: #000211; font-size: 16px;">Deduction Breakdown (Annual)</h3>
                       <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #e5e5e5; border-radius: 6px;">
@@ -174,6 +220,31 @@ export async function sendTaxReport(data: TaxReportData) {
                         <tr>
                           <td style="padding: 10px 15px; color: #666; font-size: 13px;">Life Insurance</td>
                           <td style="padding: 10px 15px; text-align: right; color: #333; font-size: 13px;">${formatCurrency(safeInsurance)}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  
+                  <!-- Monthly Deduction Breakdown -->
+                  <tr>
+                    <td style="padding: 0 30px 30px 30px;">
+                      <h3 style="margin: 0 0 15px 0; color: #000211; font-size: 16px;">Monthly Deduction Breakdown</h3>
+                      <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #e5e5e5; border-radius: 6px;">
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Mortgage</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyMortgage)}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Pension (Pencom)</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyPension)}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #666; font-size: 13px;">Monthly Rent</td>
+                          <td style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyRent)}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding: 10px 15px; color: #666; font-size: 13px;">Monthly Life Insurance</td>
+                          <td style="padding: 10px 15px; text-align: right; color: #333; font-size: 13px;">${formatCurrency(monthlyInsurance)}</td>
                         </tr>
                       </table>
                     </td>
@@ -208,6 +279,10 @@ export async function sendTaxReport(data: TaxReportData) {
 		});
 		console.log("[v0] User email sent successfully");
 
+		// Increment user count after successful user email
+		userCount++;
+		const currentUserNumber = userCount;
+
 		// Email to admin
 		const adminEmailHtml = `
       <!DOCTYPE html>
@@ -224,6 +299,7 @@ export async function sendTaxReport(data: TaxReportData) {
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                   <tr>
                     <td style="background-color: #000211; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                      <img src="${logoUrl}" alt="Oduko Logo" style="max-width: 180px; height: auto; margin-bottom: 15px; filter: brightness(0) invert(1);" />
                       <h1 style="margin: 0; color: #BAF0FF; font-size: 24px; font-weight: bold;">New User Submission</h1>
                       <p style="margin: 10px 0 0 0; color: #FFD2A8; font-size: 14px;">Tax Calculator Report</p>
                     </td>
@@ -269,7 +345,7 @@ export async function sendTaxReport(data: TaxReportData) {
                       
                       <div style="background-color: #BAF0FF; padding: 20px; border-radius: 6px; text-align: center;">
                         <p style="margin: 0; color: #000211; font-size: 14px;">Total User Count</p>
-                        <p style="margin: 10px 0 0 0; color: #000211; font-size: 32px; font-weight: bold;">${userCount}</p>
+                        <p style="margin: 10px 0 0 0; color: #000211; font-size: 32px; font-weight: bold;">${currentUserNumber}</p>
                       </div>
                     </td>
                   </tr>
@@ -294,7 +370,7 @@ export async function sendTaxReport(data: TaxReportData) {
 		await transporter.sendMail({
 			from: `"Oduko Tax Calculator" <${smtpUser}>`,
 			to: "odukoregistrydev@gmail.com",
-			subject: `New Tax Report Submission - ${data.firstName} (User #${userCount})`,
+			subject: `New Tax Report Submission - ${data.firstName} (User #${currentUserNumber})`,
 			html: adminEmailHtml,
 		});
 		console.log("[v0] Admin email sent successfully");
