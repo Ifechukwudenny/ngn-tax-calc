@@ -213,7 +213,8 @@ export default function TaxCalculator({
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
       currency: "NGN",
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(displayAmount)
   }
 
@@ -420,10 +421,10 @@ export default function TaxCalculator({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="flex items-center justify-between rounded-xl bg-gradient-to-br from-muted/50 to-muted/30 p-4"
+                        className="flex flex-col gap-2 rounded-xl bg-gradient-to-br from-muted/50 to-muted/30 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
                       >
-                        <span className="text-sm font-semibold text-muted-foreground">Gross Income</span>
-                        <span className="text-base font-bold text-foreground">
+                        <span className="text-xs font-semibold text-muted-foreground sm:text-sm">Gross Income</span>
+                        <span className="break-all text-sm font-bold text-foreground sm:text-base sm:break-normal sm:text-right">
                           {formatCurrency(result.grossIncome)}
                         </span>
                       </motion.div>
@@ -432,10 +433,10 @@ export default function TaxCalculator({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15 }}
-                        className="flex items-center justify-between rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 p-4"
+                        className="flex flex-col gap-2 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
                       >
-                        <span className="text-sm font-semibold text-accent-foreground">Total Deductions</span>
-                        <span className="text-base font-bold text-accent-foreground">
+                        <span className="text-xs font-semibold text-accent-foreground sm:text-sm">Total Deductions</span>
+                        <span className="break-all text-sm font-bold text-accent-foreground sm:text-base sm:break-normal sm:text-right">
                           {formatCurrency(result.totalDeductions)}
                         </span>
                       </motion.div>
@@ -444,10 +445,10 @@ export default function TaxCalculator({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="flex items-center justify-between rounded-xl bg-gradient-to-br from-secondary to-secondary/70 p-4"
+                        className="flex flex-col gap-2 rounded-xl bg-gradient-to-br from-secondary to-secondary/70 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
                       >
-                        <span className="text-sm font-semibold text-secondary-foreground">Taxable Income</span>
-                        <span className="text-base font-bold text-secondary-foreground">
+                        <span className="text-xs font-semibold text-secondary-foreground sm:text-sm">Taxable Income</span>
+                        <span className="break-all text-sm font-bold text-secondary-foreground sm:text-base sm:break-normal sm:text-right">
                           {formatCurrency(result.taxableIncome)}
                         </span>
                       </motion.div>
@@ -459,15 +460,15 @@ export default function TaxCalculator({
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                         whileHover={{ scale: 1.02 }}
-                        className="flex items-center justify-between rounded-xl bg-gradient-to-br from-primary to-primary/80 p-5 shadow-lg"
+                        className="flex flex-col gap-3 rounded-xl bg-gradient-to-br from-primary to-primary/80 p-4 shadow-lg sm:flex-row sm:items-center sm:justify-between sm:p-5"
                       >
                         <div className="flex items-center gap-3">
                           <div className="rounded-lg bg-primary-foreground/10 p-2">
-                            <Calculator className="h-5 w-5 text-primary-foreground" />
+                            <Calculator className="h-4 w-4 text-primary-foreground sm:h-5 sm:w-5" />
                           </div>
-                          <span className="text-lg font-bold text-primary-foreground">Total Tax</span>
+                          <span className="text-base font-bold text-primary-foreground sm:text-lg">Total Tax</span>
                         </div>
-                        <span className="text-2xl font-bold text-primary-foreground">
+                        <span className="break-all text-xl font-bold text-primary-foreground sm:text-2xl sm:break-normal sm:text-right">
                           {formatCurrency(result.totalTax)}
                         </span>
                       </motion.div>
@@ -477,15 +478,15 @@ export default function TaxCalculator({
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.35, type: "spring", stiffness: 200 }}
                         whileHover={{ scale: 1.02 }}
-                        className="flex items-center justify-between rounded-xl bg-gradient-to-br from-accent to-accent/80 p-5 shadow-lg"
+                        className="flex flex-col gap-3 rounded-xl bg-gradient-to-br from-accent to-accent/80 p-4 shadow-lg sm:flex-row sm:items-center sm:justify-between sm:p-5"
                       >
                         <div className="flex items-center gap-3">
                           <div className="rounded-lg bg-accent-foreground/10 p-2">
-                            <Wallet className="h-5 w-5 text-accent-foreground" />
+                            <Wallet className="h-4 w-4 text-accent-foreground sm:h-5 sm:w-5" />
                           </div>
-                          <span className="text-lg font-bold text-accent-foreground">Net Income</span>
+                          <span className="text-base font-bold text-accent-foreground sm:text-lg">Net Income</span>
                         </div>
-                        <span className="text-2xl font-bold text-accent-foreground">
+                        <span className="break-all text-xl font-bold text-accent-foreground sm:text-2xl sm:break-normal sm:text-right">
                           {formatCurrency(result.netIncome)}
                         </span>
                       </motion.div>
@@ -494,13 +495,13 @@ export default function TaxCalculator({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
-                        className="rounded-xl border-2 border-border bg-card p-5"
+                        className="rounded-xl border-2 border-border bg-card p-4 sm:p-5"
                       >
                         <div className="text-center">
-                          <p className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground sm:text-sm">
                             Effective Tax Rate
                           </p>
-                          <p className="mt-2 text-4xl font-bold text-foreground">{result.effectiveRate.toFixed(2)}%</p>
+                          <p className="mt-2 break-all text-3xl font-bold text-foreground sm:text-4xl sm:break-normal">{result.effectiveRate.toFixed(2)}%</p>
                         </div>
                       </motion.div>
                     </motion.div>

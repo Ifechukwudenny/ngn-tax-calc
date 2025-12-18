@@ -34,6 +34,7 @@ export default function TaxExplanation({
       currency: "NGN",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
+      notation: "standard",
     }).format(displayAmount)
   }
 
@@ -102,10 +103,10 @@ export default function TaxExplanation({
                 </p>
               </div>
 
-              <div className="space-y-2 text-sm md:text-base">
-                <div className="flex justify-between border-b border-border pb-2">
+              <div className="space-y-2 text-xs sm:text-sm md:text-base">
+                <div className="flex flex-col gap-1 border-b border-border pb-2 sm:flex-row sm:justify-between">
                   <span className="text-muted-foreground">Gross Income:</span>
-                  <span className="font-semibold">{formatCurrency(grossIncome)}</span>
+                  <span className="break-all font-semibold text-right sm:break-normal">{formatCurrency(grossIncome)}</span>
                 </div>
 
                 <Separator />
@@ -128,30 +129,30 @@ export default function TaxExplanation({
                   <span>- {formatCurrency(insuranceDeduction)}</span>
                 </div>
 
-                <div className="flex justify-between rounded-lg bg-secondary p-2 font-semibold">
+                <div className="flex flex-col gap-1 rounded-lg bg-secondary p-2 font-semibold sm:flex-row sm:justify-between">
                   <span>Taxable Income:</span>
-                  <span>{formatCurrency(taxableIncome)}</span>
+                  <span className="break-all text-right sm:break-normal">{formatCurrency(taxableIncome)}</span>
                 </div>
 
                 <Separator />
                 <p className="text-xs font-semibold text-muted-foreground">Tax Calculation:</p>
 
-                <div className="space-y-1 pl-4 text-xs md:text-sm">
+                <div className="space-y-1 pl-2 sm:pl-4 text-xs md:text-sm">
                   {taxBreakdown.map((item, index) => (
-                    <p key={index} className="text-muted-foreground">
-                      {item.description} = {formatCurrency(item.tax)}
+                    <p key={index} className="text-muted-foreground break-words">
+                      <span className="break-words">{item.description}</span> = <span className="break-all font-semibold">{formatCurrency(item.tax)}</span>
                     </p>
                   ))}
                 </div>
 
-                <div className="flex justify-between rounded-lg bg-primary p-3 font-semibold text-primary-foreground">
+                <div className="flex flex-col gap-1 rounded-lg bg-primary p-3 font-semibold text-primary-foreground sm:flex-row sm:justify-between">
                   <span>Total Tax:</span>
-                  <span>{formatCurrency(totalTax)}</span>
+                  <span className="break-all text-right sm:break-normal">{formatCurrency(totalTax)}</span>
                 </div>
 
-                <div className="flex justify-between rounded-lg bg-accent p-3 font-semibold text-accent-foreground">
+                <div className="flex flex-col gap-1 rounded-lg bg-accent p-3 font-semibold text-accent-foreground sm:flex-row sm:justify-between">
                   <span>Take-Home Income:</span>
-                  <span>{formatCurrency(netIncome)}</span>
+                  <span className="break-all text-right sm:break-normal">{formatCurrency(netIncome)}</span>
                 </div>
               </div>
             </div>

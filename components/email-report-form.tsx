@@ -118,10 +118,10 @@ export default function EmailReportForm({ taxData }: EmailReportFormProps) {
         <DialogTrigger asChild>
           <Button
             size="lg"
-            className="w-full text-lg font-semibold py-6 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-primary/90"
+            className="fixed bottom-4 left-4 right-4 z-50 w-auto mx-auto text-base sm:text-lg font-extrabold py-6 sm:py-7 px-6 sm:px-10 shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.4)] transition-all duration-300 bg-gradient-to-r from-primary via-primary/95 to-primary/90 hover:from-primary/95 hover:via-primary hover:to-primary/95 border-2 border-primary-foreground/40 backdrop-blur-md rounded-full sm:rounded-full"
           >
-            <Mail className="mr-3 h-6 w-6" />
-            Get Your Tax Report via Email
+            <Mail className="mr-2 h-5 w-5 sm:mr-3 sm:h-6 sm:w-6" />
+            <span className="whitespace-nowrap">Get Report via Email</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
