@@ -341,18 +341,26 @@ export async function sendTaxReport(data: TaxReportData) {
 		});
 		console.log("[v0] User email sent successfully");
 
-		// Increment user count after successful user email (saved to file for persistence)
-		let currentUserNumber: number;
+		// Increment user count after successful user email (saved to Redis for persistence)
+		// Ensure this never blocks email sending
+		let currentUserNumber: number = 1; // Safe default
+
+		// Try to increment count with a timeout to prevent blocking
 		try {
-			currentUserNumber = await incrementUserCount();
-			console.log("[v0] User count incremented to:", currentUserNumber);
+			const countPromise = incrementUserCount();
+			const timeoutPromise = new Promise<number>((resolve) => {
+				setTimeout(() => {
+					console.log("[v0] User count increment timed out, using default");
+					resolve(1);
+				}, 1500); // 1.5 second timeout
+			});
+
+			currentUserNumber = await Promise.race([countPromise, timeoutPromise]);
+			console.log("[v0] User count set to:", currentUserNumber);
 		} catch (error) {
-			console.error("[v0] Error incrementing user count:", error);
-			// Fallback: try to get current count and add 1
-			const { getUserCount } = await import("@/lib/user-count-storage");
-			const fallbackCount = await getUserCount();
-			currentUserNumber = fallbackCount + 1;
-			console.log("[v0] Using fallback user count:", currentUserNumber);
+			console.error("[v0] Error incrementing user count (non-blocking):", error);
+			// Use default value - email sending continues regardless
+			currentUserNumber = 1;
 		}
 
 		// Email to admin
